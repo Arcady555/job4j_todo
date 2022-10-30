@@ -6,70 +6,81 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.service.TaskService;
+import ru.job4j.utility.Utility;
+
+import javax.servlet.http.HttpSession;
 
 @Controller
 @AllArgsConstructor
-@RequestMapping("/task")
+//@RequestMapping("/task")
 public class TaskController {
     private final TaskService service;
 
-    @GetMapping("/List")
-    public String listTaskGet(Model model) {
+    @GetMapping("/taskList")
+    public String listTaskGet(Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("tasks", service.findAll());
-        return "taskList";
+        return "task/taskList";
     }
 
-    @GetMapping("/ListDone")
-    public String listTaskDoneGet(Model model) {
+    @GetMapping("/taskListDone")
+    public String listTaskDoneGet(Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("tasks", service.findDone(true));
-        return "taskList";
+        return "task/taskList";
     }
 
-    @GetMapping("/ListNew")
-    public String listTaskNewGet(Model model) {
+    @GetMapping("/taskListNew")
+    public String listTaskNewGet(Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("tasks", service.findDone(false));
-        return "taskList";
+        return "task/taskList";
     }
 
-    @GetMapping("//{taskId}")
-    public String taskGet(Model model, @PathVariable("taskId") int id) {
+    @GetMapping("/task/{taskId}")
+    public String taskGet(Model model, @PathVariable("taskId") int id, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("task", service.findById(id));
-        return "task";
+        return "task/task";
     }
 
-    @GetMapping("/update/{taskId}")
-    public String updateTaskGet(Model model, @PathVariable("taskId") int id) {
+    @GetMapping("/updateTask/{taskId}")
+    public String updateTaskGet(Model model, @PathVariable("taskId") int id, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("task", service.findById(id));
-        return "updateTask";
+        return "task/updateTask";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/updateTask")
     public String updateTaskPost(@ModelAttribute Task task) {
         service.replace(task.getId(), task);
         return "redirect:/taskList";
     }
 
-    @GetMapping("/new")
-    public String addTaskGet(Model model) {
+    @GetMapping("/newTask")
+    public String addTaskGet(Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         model.addAttribute("task", new Task(0, "Заполните поле",
                 null, false));
-        return "newTask";
+        return "task/newTask";
     }
 
-    @PostMapping("/new")
+    @PostMapping("/newTask")
     public String addTaskPost(@ModelAttribute Task task) {
         service.add(task);
         return "redirect:/taskList";
     }
 
-    @GetMapping("/done/{taskId}")
-    public String doneTaskGet(@PathVariable("taskId") int id) {
+    @GetMapping("/doneTask/{taskId}")
+    public String doneTaskGet(@PathVariable("taskId") int id,Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         service.replaceDone(id);
         return "redirect:/taskList";
     }
 
-    @GetMapping("/delete/{taskId}")
-    public String deleteTaskGet(@PathVariable("taskId") int id) {
+    @GetMapping("/deleteTask/{taskId}")
+    public String deleteTaskGet(@PathVariable("taskId") int id, Model model, HttpSession httpSession) {
+        Utility.userGet(model, httpSession);
         Task task = service.findById(id);
         service.delete(id);
         return "redirect:/taskList";

@@ -27,7 +27,7 @@ public class TaskStore {
     public List<Task> findDone(boolean b) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from Task as t where t.done = :fB")
+        List result = session.createQuery("from Task as t where t.done = :fB", Task.class)
                 .setParameter("fB", b)
                 .list();
         session.getTransaction().commit();
