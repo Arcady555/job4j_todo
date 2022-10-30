@@ -59,10 +59,10 @@ public class TaskStore {
     public boolean replaceDone(int id) {
         Session session = sf.openSession();
         session.beginTransaction();
-        Task result = session.createQuery(
-                "UPDATE Task as i set i.done = true where ID = :fId", Task.class)
+        session.createQuery(
+                "UPDATE Task SET done = 'true' WHERE id = :fId")
                 .setParameter("fId", id)
-                .uniqueResult();
+                .executeUpdate();
         session.getTransaction().commit();
         session.close();
         return true;
