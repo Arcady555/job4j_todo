@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <!-- Required meta tags -->
@@ -15,22 +15,21 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <title>Todo</title>
+    <title>todo</title>
 </head>
 <body>
 <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Todo</a>
+        <a class="navbar-brand" href="#">Задания</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/taskList}">Все</a>
-                <a class="nav-item nav-link" th:href="@{/taskListDone}">Выполненные</a>
-                <a class="nav-item nav-link" th:href="@{/taskListNew}">Новые</a>
+                <a class="nav-item nav-link" th:href="@{/task/list}">Все</a>
+                <a class="nav-item nav-link" th:href="@{/task/listDone}">Выполненные</a>
+                <a class="nav-item nav-link" th:href="@{/task/listNew}">Новые</a>
                 <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
                 <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginPage}">
                     <span th:text="${user.name}"></span>
