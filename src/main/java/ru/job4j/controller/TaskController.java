@@ -1,6 +1,7 @@
 package ru.job4j.controller;
 
 import lombok.AllArgsConstructor;
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @AllArgsConstructor
-//@RequestMapping("/task")
+@ThreadSafe
 public class TaskController {
     private final TaskService service;
 

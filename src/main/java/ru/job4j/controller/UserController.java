@@ -1,6 +1,7 @@
 package ru.job4j.controller;
 
 import lombok.AllArgsConstructor;
+import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
+@ThreadSafe
 public class UserController {
     private UserService service;
 

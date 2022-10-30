@@ -1,6 +1,7 @@
 package ru.job4j.persistence;
 
 import lombok.AllArgsConstructor;
+import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Repository
 @AllArgsConstructor
+@ThreadSafe
 public class TaskStore {
     private final SessionFactory sf;
 

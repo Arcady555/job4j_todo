@@ -1,6 +1,7 @@
 package ru.job4j.persistence;
 
 import lombok.AllArgsConstructor;
+import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
+@ThreadSafe
 public class UserStore {
     private final SessionFactory sf;
 
