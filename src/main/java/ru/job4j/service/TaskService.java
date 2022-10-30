@@ -16,12 +16,8 @@ public class TaskService {
         return store.findAll();
     }
 
-    public List<Task> findDone() {
-        return store.findDone();
-    }
-
-    public List<Task> findNew() {
-        return store.findNew();
+    public List<Task> findDone(boolean b) {
+        return store.findDone(b);
     }
 
     public Task add(Task task) {
@@ -30,6 +26,10 @@ public class TaskService {
 
     public boolean replace(int id, Task task) {
         return store.replace(id, task);
+    }
+
+    public void replaceDone(int id) {
+        store.replaceDone(id);
     }
 
     public boolean delete(int id) {

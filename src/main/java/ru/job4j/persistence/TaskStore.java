@@ -24,19 +24,12 @@ public class TaskStore {
         return result;
     }
 
-    public List<Task> findDone() {
+    public List<Task> findDone(boolean b) {
         Session session = sf.openSession();
         session.beginTransaction();
-        List result = session.createQuery("from Task as t where t.done = true").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
-    }
-
-    public List<Task> findNew() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Task as t where t.done = false").list();
+        List result = session.createQuery("from Task as t where t.done = :fB")
+                .setParameter("fB", b)
+                .list();
         session.getTransaction().commit();
         session.close();
         return result;
@@ -58,6 +51,18 @@ public class TaskStore {
         session.beginTransaction();
         task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         session.update(task);
+        session.getTransaction().commit();
+        session.close();
+        return true;
+    }
+
+    public boolean replaceDone(int id) {
+        Session session = sf.openSession();
+        session.beginTransaction();
+        Task result = session.createQuery(
+                "UPDATE Task as i set i.done = true where ID = :fId", Task.class)
+                .setParameter("fId", id)
+                .uniqueResult();
         session.getTransaction().commit();
         session.close();
         return true;
