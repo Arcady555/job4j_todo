@@ -16,12 +16,14 @@ public class UserStore {
     private final SessionFactory sf;
 
     public Optional<User> add(User user) {
+        Optional<User> rsl = Optional.empty();
         Session session = sf.openSession();
         session.beginTransaction();
         session.save(user);
+        rsl = Optional.of(user);
         session.getTransaction().commit();
         session.close();
-        return Optional.of(user);
+        return rsl;
     }
 
     public Optional<User> findUserByLoginAndPwd(String login, String password) {
