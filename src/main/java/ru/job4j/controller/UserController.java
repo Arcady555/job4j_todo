@@ -68,7 +68,7 @@ public class UserController {
         }
         HttpSession session = req.getSession();
         session.setAttribute("user", userDb.get());
-        return "redirect:/task/list";
+        return "redirect:/tasks/list";
     }
 
     @GetMapping("/logout")

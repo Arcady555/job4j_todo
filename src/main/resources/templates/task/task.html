@@ -27,9 +27,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" th:href="@{/task/list}">Все</a>
-                <a class="nav-item nav-link" th:href="@{/task/listDone}">Выполненные</a>
-                <a class="nav-item nav-link" th:href="@{/task/listNew}">Новые</a>
+                <a class="nav-item nav-link" th:href="@{/tasks/list}">Все</a>
+                <a class="nav-item nav-link" th:href="@{/tasks/done}">Выполненные</a>
+                <a class="nav-item nav-link" th:href="@{/tasks/undone}">Новые</a>
                 <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
                 <a class="nav-item nav-link" th:if="${user.name == 'Гость'}" th:href="@{/loginPage}">
                     <span th:text="${user.name}"></span>
@@ -67,13 +67,13 @@
                 </div>
                 <div>
                     <td>
-                        <a th:href="@{|/task/done/${task.id}|}">
+                        <a th:href="@{|/tasks/done/${task.id}|}">
                             <button type="button" class="btn btn-primary">Выполнено</button>
                         </a>
-                        <a th:href="@{|/task/update/${task.id}|}">
+                        <a th:href="@{|/tasks/update/${task.id}|}">
                             <button type="button" class="btn btn-primary">Редактировать</button>
                         </a>
-                        <a th:href="@{|/task/delete/${task.id}|}">
+                        <a th:href="@{|/tasks/delete/${task.id}|}">
                             <button type="button" class="btn btn-primary">Удалить</button>
                         </a>
                     </td>
