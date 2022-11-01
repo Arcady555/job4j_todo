@@ -1,56 +1,57 @@
-### **Сервис по выполнению заданий**
+# **Сервис по выполнению заданий**
 
 ![img_1.png](img_1.png)
-Welcome!
+## Welcome!
 
 _Данное приложение - Ваш on-line органайзер!_
        
-         Используемые технологии:
+## Используемые технологии:
 
-Java 18
+'''Java 18'''
 
-Spring Boot (v2.7.3)
+"""Spring Boot (v2.7.3)"""
 
-Thymeleaf
+    Thymeleaf
 
-Bootstrap
+    Bootstrap
 
-Apache Tomcat/9.0.65
+    Apache Tomcat/9.0.65
 
-Maven 4.0.0
+    Maven 4.0.0
 
-JDBC
+    JDBC
 
-Hibernate ORM core version 5.6.11.Final
+    Hibernate ORM core version 5.6.11.Final
 
-Liquibase 
+    Liquibase 
 
-PostgresSQL 
+    PostgresSQL 
 
-H2 
+    H2 
 
-Mockito 
+    Mockito 
 
-Junit 
+    Junit 
 
-Lombok
+    Lombok
 
-      Требования к окружению
+## Требования к окружению
 
-Maven 3.8.1
+    Maven 3.8.1
 
-OpenJDK 18.0.1
+    OpenJDK 18.0.1
 
 Postgresql 14 
 
-       
-       Запуск приложения
 
-1. Создать бд - наберите в консоли(через MySQL):
+## Запуск приложения
+
+### 1. Создать бд - наберите в консоли:
 
 create database todo;
 
-2. Запуск приложения с maven. Перейдите в корень проекта через командную строку и выполните команды:
+### 2. Запуск приложения с maven. 
+Перейдите в корень проекта через командную строку и выполните команды:
 
 mvn clean install
 
