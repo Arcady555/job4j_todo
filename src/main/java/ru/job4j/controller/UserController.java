@@ -41,13 +41,13 @@ public class UserController {
     @GetMapping("/success")
     public String success(Model model, HttpSession session) {
         Utility.userGet(model, session);
-        return "user/printSuccess";
+        return "user/success";
     }
 
     @GetMapping("/fail")
     public String fail(Model model, HttpSession session) {
         Utility.userGet(model, session);
-        return "user/printFail";
+        return "user/fail";
     }
 
     @GetMapping("/loginPage")

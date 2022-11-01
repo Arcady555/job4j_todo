@@ -18,16 +18,16 @@ public class UserStore {
     public Optional<User> add(User user) {
         Optional<User> rsl = Optional.empty();
         Session session = sf.openSession();
-        try (session) {
+        try  {
             session.beginTransaction();
             session.save(user);
             rsl = Optional.of(user);
             session.getTransaction().commit();
             session.close();
-        } catch (final Exception e) {
+        } catch (Exception e) {
             session.getTransaction().rollback();
-            throw e;
-    }
+            e.printStackTrace();
+        }
         return rsl;
     }
 
