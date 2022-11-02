@@ -6,41 +6,31 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.User;
+import ru.job4j.persistence.repository.CrudRepository;
 
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 @ThreadSafe
 public class UserStore {
-    private final SessionFactory sf;
+    private CrudRepository crudRepository;
 
     public Optional<User> add(User user) {
         Optional<User> rsl = Optional.empty();
-        Session session = sf.openSession();
-        try  {
-            session.beginTransaction();
-            session.save(user);
+        try {
+            crudRepository.run(session -> session.persist(user));
             rsl = Optional.of(user);
-            session.getTransaction().commit();
-            session.close();
         } catch (Exception e) {
-            session.getTransaction().rollback();
             e.printStackTrace();
         }
         return rsl;
     }
-
-    public Optional<User> findUserByLoginAndPwd(String login, String password) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Optional<User> result = session.createQuery(
-                        "from User as i where (i.login = :fLogin and i.password = :fPassword)", User.class)
-                .setParameter("fLogin", login)
-                .setParameter("fPassword", password)
-                .uniqueResultOptional();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+    public Optional<User> findUserByLogin(String login) {
+        return crudRepository.optional(
+                "from User where login = :fLogin", User.class,
+                Map.of("fLogin", login)
+        );
     }
 }

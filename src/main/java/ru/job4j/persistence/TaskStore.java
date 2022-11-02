@@ -6,90 +6,53 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.model.Task;
+import ru.job4j.model.User;
+import ru.job4j.persistence.repository.CrudRepository;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
 @ThreadSafe
 public class TaskStore {
-    private final SessionFactory sf;
+    private final CrudRepository crudRepository;
 
     public List<Task> findAll() {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Task").list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return crudRepository.query("from Task", Task.class);
     }
 
     public List<Task> findDone(boolean b) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        List result = session.createQuery("from Task as t where t.done = :fB", Task.class)
-                .setParameter("fB", b)
-                .list();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return crudRepository.query("from Task as t where t.done = :fB", Task.class,
+                Map.of("fB", b));
     }
 
     public Task add(Task task) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        session.save(task);
-        session.getTransaction().commit();
-        session.close();
+        crudRepository.run(session -> session.persist(task));
         return task;
     }
 
     public boolean replace(int id, Task task) {
         task.setId(id);
-        Session session = sf.openSession();
-        session.beginTransaction();
-        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-        session.update(task);
-        session.getTransaction().commit();
-        session.close();
-        return true;
+        crudRepository.run(session -> session.merge(task));
+        return findById(id) == task;
     }
 
     public boolean replaceDone(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        session.createQuery(
-                "UPDATE Task SET done = 'true' WHERE id = :fId")
-                .setParameter("fId", id)
-                .executeUpdate();
-        session.getTransaction().commit();
-        session.close();
-        return true;
+        crudRepository.run("UPDATE Task SET done = 'true' WHERE id = :fId", Map.of("fId", id));
+        return findById(id).isDone();
     }
 
     public boolean delete(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Task task = new Task();
-        task.setId(id);
-        session.delete(task);
-        session.getTransaction().commit();
-        session.close();
-        return true;
+        crudRepository.run(session -> session.delete(id));
+        return findById(id) == null;
     }
 
     public Task findById(int id) {
-        Session session = sf.openSession();
-        session.beginTransaction();
-        Task result = session.createQuery(
-                        "from Task as i where i.id = :fId", Task.class)
-                .setParameter("fId", id)
-                .uniqueResult();
-        session.getTransaction().commit();
-        session.close();
-        return result;
+        return crudRepository.get(
+                "from Task as i where i.id = :fId", Task.class, Map.of("fId", id));
     }
 }
