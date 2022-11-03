@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -82,18 +83,21 @@ public class CrudRepository {
     }
 
     public <T> T tx(Function<Session, T> command) {
-        var session = sf.openSession();
+        Session session = sf.openSession();
+        Transaction tx;
         try (session) {
-            var tx = session.beginTransaction();
+            tx = session.beginTransaction();
             T rsl = command.apply(session);
             tx.commit();
             return rsl;
         } catch (Exception e) {
-            var tx = session.getTransaction();
-            if (tx.isActive()) {
+            tx = session.getTransaction();
+            if (tx != null) {
                 tx.rollback();
             }
             throw e;
+        } finally {
+            session.close();
         }
     }
 }
