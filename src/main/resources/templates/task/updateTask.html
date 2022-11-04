@@ -49,6 +49,10 @@
             </div>
             <div class="card-body">
                 <form th:action="@{/tasks/update}" method="POST" th:object="${task}">
+                    <input type="hidden" name="userId" th:attr="value=${user.userId}" />
+                    <input type="hidden" name="name" th:attr="value=${user.name}" />
+                    <input type="hidden" name="login" th:attr="value=${user.login}" />
+                    <input type="hidden" name="password" th:attr="value=${user.password}" />
                     <input type="hidden" name="id" th:field="*{id}"/>
                     <div class="form-group">
                         <label for="description">Описание

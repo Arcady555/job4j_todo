@@ -6,10 +6,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
+import ru.job4j.model.User;
 import ru.job4j.service.TaskService;
 import ru.job4j.utility.Utility;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Controller
 @AllArgsConstructor
@@ -54,8 +57,10 @@ public class TaskController {
     }
 
     @PostMapping("/update")
-    public String updateTaskPost(@ModelAttribute Task task) {
-        service.replace(task.getId(), task);
+    public String updateTaskPost(@ModelAttribute Task task, @ModelAttribute User user) {
+        task.setUser(user);
+        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        service.replace(task);
         return "redirect:/tasks/list";
     }
 
@@ -63,12 +68,14 @@ public class TaskController {
     public String addTaskGet(Model model, HttpSession httpSession) {
         Utility.userGet(model, httpSession);
         model.addAttribute("task", new Task(0, "Заполните поле",
-                null, false));
+                null, false, null));
         return "task/newTask";
     }
 
     @PostMapping("/create")
-    public String addTaskPost(@ModelAttribute Task task) {
+    public String addTaskPost(@ModelAttribute Task task, @ModelAttribute User user) {
+        task.setUser(user);
+        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         service.add(task);
         return "redirect:/tasks/list";
     }
@@ -83,7 +90,6 @@ public class TaskController {
     @GetMapping("/delete/{id}")
     public String deleteTaskGet(@PathVariable("id") int id, Model model, HttpSession httpSession) {
         Utility.userGet(model, httpSession);
-        Task task = service.findById(id);
         service.delete(id);
         return "redirect:/tasks/list";
     }

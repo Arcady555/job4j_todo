@@ -50,6 +50,7 @@
                 <th scope="col">Описание</th>
                 <th scope="col">Дата</th>
                 <th scope="col">Отметка о выполнении</th>
+                <th scope="col">Пользователь</th>
             </tr>
             </thead>
             <tbody>
@@ -59,14 +60,15 @@
                         <span th:text="${task.id}"></span>
                     </a>
                 </td>
-                <td width="55%" th:text="${task.description}" />
-                <td width="20%" th:text="${task.created}" />
-                <td width="20%" th:if="${task.done == true}">
+                <td width="50%" th:text="${task.description}" />
+                <td width="15%" th:text="${task.created}" />
+                <td width="15%" th:if="${task.done == true}">
                     <i class="fa fa-check-square-o"></i>
                 </td>
-                <td width="20%" th:if="${task.done == false}">
+                <td width="15%" th:if="${task.done == false}">
                     <i class="fa fa-square-o"></i>
                 </td>
+                <td width="15%" th:text="${task.user.name}" />
             </tr>
             </tbody>
         </table>

@@ -26,8 +26,8 @@ public class TaskService {
         return store.add(task);
     }
 
-    public boolean replace(int id, Task task) {
-        return store.replace(id, task);
+    public boolean replace(Task task) {
+        return store.replace(task);
     }
 
     public void replaceDone(int id) {

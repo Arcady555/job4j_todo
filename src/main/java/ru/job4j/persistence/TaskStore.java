@@ -25,14 +25,14 @@ public class TaskStore {
     }
 
     public Task add(Task task) {
-        crudRepository.run(session -> session.persist(task));
+        crudRepository.run(session -> session.save(task));
         return task;
     }
 
-    public boolean replace(int id, Task task) {
-        task.setId(id);
+    public boolean replace(Task task) {
+        System.out.println(task.getId());;
         crudRepository.run(session -> session.merge(task));
-        return findById(id) == task;
+        return findById(task.getId()) == task;
     }
 
     public boolean replaceDone(int id) {
@@ -41,8 +41,9 @@ public class TaskStore {
     }
 
     public boolean delete(int id) {
-        crudRepository.run(session -> session.delete(id));
-        return findById(id) == null;
+        Task task = findById(id);
+        crudRepository.run(session -> session.delete(task));
+        return task == null;
     }
 
     public Task findById(int id) {
