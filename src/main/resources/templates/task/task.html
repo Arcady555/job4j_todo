@@ -53,12 +53,13 @@
                         <tbody>
                         <tr>
                             <td width="5%" th:text="${task.id}" />
-                            <td width="50%" th:text="${task.description}" />
+                            <td width="45%" th:text="${task.description}" />
+                            <td width="10%" th:text="${task.priority.name}" />
                             <td width="15%" th:text="${task.created}" />
-                            <td width="15%" th:if="${task.done == true}">
+                            <td width="10%" th:if="${task.done == true}">
                                 <i class="fa fa-check-square-o"></i>
                             </td>
-                            <td width="15%" th:if="${task.done == false}">
+                            <td width="10%" th:if="${task.done == false}">
                                 <i class="fa fa-square-o"></i>
                             </td>
                             <td width="15%" th:text="${task.user.name}" />

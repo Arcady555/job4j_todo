@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.model.Task;
 import ru.job4j.model.User;
+import ru.job4j.service.PriorityService;
 import ru.job4j.service.TaskService;
 import ru.job4j.utility.Utility;
 
@@ -20,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 @RequestMapping("/tasks")
 public class TaskController {
     private final TaskService service;
+    private final PriorityService priorityService;
 
     @GetMapping("/list")
     public String listTaskGet(Model model, HttpSession httpSession) {
@@ -53,6 +55,7 @@ public class TaskController {
     public String updateTaskGet(Model model, @PathVariable("id") int id, HttpSession httpSession) {
         Utility.userGet(model, httpSession);
         model.addAttribute("task", service.findById(id));
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/updateTask";
     }
 
@@ -68,7 +71,8 @@ public class TaskController {
     public String addTaskGet(Model model, HttpSession httpSession) {
         Utility.userGet(model, httpSession);
         model.addAttribute("task", new Task(0, "Заполните поле",
-                null, false, null));
+                null, false, null, null));
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/newTask";
     }
 

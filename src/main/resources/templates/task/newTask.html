@@ -57,6 +57,10 @@
                         <label>Описание
                             <input type="text" size="320" class="form-control" name="description">
                         </label>
+                        <label>Приоритет</label>
+                        <select class="form-control" id="priority.id" name="priority.id">
+                            <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"></option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                 </form>

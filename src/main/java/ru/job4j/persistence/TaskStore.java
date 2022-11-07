@@ -16,11 +16,11 @@ public class TaskStore {
     private final CrudRepository crudRepository;
 
     public List<Task> findAll() {
-        return crudRepository.query("from Task", Task.class);
+        return crudRepository.query("from Task task join fetch task.priority", Task.class);
     }
 
     public List<Task> findDone(boolean b) {
-        return crudRepository.query("from Task as t where t.done = :fB", Task.class,
+        return crudRepository.query("from Task as t join fetch t.priority where t.done = :fB", Task.class,
                 Map.of("fB", b));
     }
 
@@ -48,6 +48,6 @@ public class TaskStore {
 
     public Task findById(int id) {
         return crudRepository.get(
-                "from Task as i where i.id = :fId", Task.class, Map.of("fId", id));
+                "from Task as t join fetch t.priority where t.id = :fId", Task.class, Map.of("fId", id));
     }
 }
