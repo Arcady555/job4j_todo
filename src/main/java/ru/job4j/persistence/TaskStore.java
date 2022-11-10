@@ -1,8 +1,11 @@
 package ru.job4j.persistence;
 
 import lombok.AllArgsConstructor;
+
 import net.jcip.annotations.ThreadSafe;
+
 import org.springframework.stereotype.Repository;
+
 import ru.job4j.model.Task;
 import ru.job4j.persistence.repository.CrudRepository;
 
@@ -30,7 +33,6 @@ public class TaskStore {
     }
 
     public boolean replace(Task task) {
-        System.out.println(task.getId());;
         crudRepository.run(session -> session.merge(task));
         return findById(task.getId()) == task;
     }
