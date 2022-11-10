@@ -96,7 +96,7 @@ public class TaskController {
         task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
         List<Category> categories = categoryService.createList(task.getCategoryNames());
         task.setCategories(categories);
-        taskService.add(task); //, categories);
+        taskService.add(task);
         return "redirect:/tasks/list";
     }
 
