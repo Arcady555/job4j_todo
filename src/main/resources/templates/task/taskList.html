@@ -47,7 +47,7 @@
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Категория</th>
+           <!--     <th scope="col">Категория</th>   -->
                 <th scope="col">Описание</th>
                 <th scope="col">Приоритет</th>
                 <th scope="col">Дата</th>
@@ -62,7 +62,7 @@
                         <span th:text="${task.id}"></span>
                     </a>
                 </td>
-                <td width="10%" th:text="${task.categoryNames}" />
+           <!--     <td width="10%" th:text="${task.categories}" />  -->
                 <td width="40%" th:text="${task.description}" />
                 <td width="10%" th:text="${task.priority.name}" />
                 <td width="15%" th:text="${task.created}" />

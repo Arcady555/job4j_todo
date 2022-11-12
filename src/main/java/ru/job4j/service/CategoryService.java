@@ -22,4 +22,16 @@ public class CategoryService {
     public List<Category> createList(String str) {
         return categoryStore.createList(str);
     }
+
+    public Category findById(int id) {
+        return categoryStore.findById(id);
+    }
+
+    public List<Category> findByTaskId(int id) {
+        return categoryStore.findByTaskId(id);
+    }
+
+    public List<Integer> getCategoryIds(int taskId) {
+        return categoryStore.getCategoryIds(taskId);
+    }
 }
