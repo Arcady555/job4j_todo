@@ -84,8 +84,8 @@ public class TaskController {
     public String updateTaskPost(@ModelAttribute Task task, @ModelAttribute User user) {
         task.setUser(user);
         task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
-    //    List<Category> categories = categoryService.createList(task.getCategoryNames());
-   //     task.setCategories(categories);
+    /**    List<Category> categories = categoryService.createList(task.getCategoryNames());
+        task.setCategories(categories); */
         taskService.replace(task);
         return "redirect:/tasks/list";
     }
