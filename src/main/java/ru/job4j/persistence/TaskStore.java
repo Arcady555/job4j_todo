@@ -6,12 +6,10 @@ import net.jcip.annotations.ThreadSafe;
 
 import org.springframework.stereotype.Repository;
 
-import ru.job4j.model.Category;
 import ru.job4j.model.Task;
 import ru.job4j.persistence.repository.CrudRepository;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @AllArgsConstructor
@@ -19,21 +17,18 @@ import java.util.Map;
 public class TaskStore {
     private final CrudRepository crudRepository;
 
-    public List<Task> findAll() {
-        return crudRepository.query(
-                "from Task task join fetch task.priority", /** join fetch task.categories", */
+    public Set<Task> findAll() {
+        return new LinkedHashSet<>(crudRepository.query(
+                "from Task t join fetch t.priority join fetch t.categories",
                 Task.class
-        );
-    /**    return crudRepository.query(
-                "from Task t join fetch t.priority LEFT JOIN categories_tasks " +
-                        "ct on t.id = ct.task_id LEFT JOIN category c ON ct.category_id = c.id;",
-                Task.class
-        );  */
+        ));
     }
 
-    public List<Task> findDone(boolean b) {
-        return crudRepository.query("from Task as t join fetch t.priority where t.done = :fB", Task.class,
-                Map.of("fB", b));
+    public Set<Task> findDone(boolean b) {
+        return new LinkedHashSet<>(crudRepository.query(
+                "from Task t join fetch t.priority join fetch t.categories where t.done = :fB",
+                Task.class,
+                Map.of("fB", b)));
     }
 
     public Task add(Task task) {
@@ -47,7 +42,9 @@ public class TaskStore {
     }
 
     public boolean replaceDone(int id) {
-        crudRepository.run("UPDATE Task SET done = 'true' WHERE id = :fId", Map.of("fId", id));
+        crudRepository.run("UPDATE Task SET done = 'true' WHERE id = :fId",
+                Map.of("fId", id)
+        );
         return findById(id).isDone();
     }
 
@@ -59,6 +56,8 @@ public class TaskStore {
 
     public Task findById(int id) {
         return crudRepository.get(
-                "from Task as t join fetch t.priority where t.id = :fId", Task.class, Map.of("fId", id));
+                "from Task as t join fetch t.priority join fetch t.categories where t.id = :fId",
+                Task.class, Map.of("fId", id)
+        );
     }
 }

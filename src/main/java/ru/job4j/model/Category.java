@@ -6,8 +6,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "category")
@@ -24,6 +24,11 @@ public class Category {
 
     private String name;
 
-    @ManyToMany(mappedBy = "categories")
-    private List<Task> tasks = new ArrayList<>();
+    @ManyToMany (mappedBy = "categories")
+    private Set<Task> tasks = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return  name;
+    }
 }

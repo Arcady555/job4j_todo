@@ -3,11 +3,10 @@ package ru.job4j.service;
 import lombok.AllArgsConstructor;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Service;
-import ru.job4j.model.Category;
 import ru.job4j.model.Task;
 import ru.job4j.persistence.TaskStore;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -15,11 +14,11 @@ import java.util.List;
 public class TaskService {
     private final TaskStore store;
 
-    public List<Task> findAll() {
+    public Set<Task> findAll() {
         return store.findAll();
     }
 
-    public List<Task> findDone(boolean b) {
+    public Set<Task> findDone(boolean b) {
         return store.findDone(b);
     }
 
