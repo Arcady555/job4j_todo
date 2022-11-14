@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.model.Task;
 import ru.job4j.persistence.TaskStore;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -14,11 +14,11 @@ import java.util.Set;
 public class TaskService {
     private final TaskStore store;
 
-    public Set<Task> findAll() {
+    public List<Task> findAll() {
         return store.findAll();
     }
 
-    public Set<Task> findDone(boolean b) {
+    public List<Task> findDone(boolean b) {
         return store.findDone(b);
     }
 

@@ -17,18 +17,18 @@ import java.util.*;
 public class TaskStore {
     private final CrudRepository crudRepository;
 
-    public Set<Task> findAll() {
-        return new LinkedHashSet<>(crudRepository.query(
-                "from Task t join fetch t.priority join fetch t.categories",
+    public List<Task> findAll() {
+        return crudRepository.query(
+                "select distinct t from Task t join fetch t.priority join fetch t.categories",
                 Task.class
-        ));
+        );
     }
 
-    public Set<Task> findDone(boolean b) {
-        return new LinkedHashSet<>(crudRepository.query(
-                "from Task t join fetch t.priority join fetch t.categories where t.done = :fB",
+    public List<Task> findDone(boolean b) {
+        return crudRepository.query(
+                "select distinct t from Task t join fetch t.priority join fetch t.categories where t.done = :fB",
                 Task.class,
-                Map.of("fB", b)));
+                Map.of("fB", b));
     }
 
     public Task add(Task task) {
