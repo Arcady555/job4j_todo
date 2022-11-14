@@ -37,18 +37,9 @@ public class TaskController {
     @GetMapping("/list")
     public String listTaskGet(Model model, HttpSession httpSession) {
         User user = Utility.userGet(model, httpSession);
-        System.out.println(user.getTimeZone());
         List<Task> tasks = taskService.findAll();
         for (Task task : tasks) {
-            ZonedDateTime time;
-            if (user.getTimeZone() == null) {
-                time = task.getCreated().withZoneSameInstant(ZoneId.of("UTC"))
-                        .truncatedTo(ChronoUnit.SECONDS);
-            } else {
-                time = task.getCreated().withZoneSameInstant(ZoneId.of(user.getTimeZone()))
-                        .truncatedTo(ChronoUnit.SECONDS);
-            }
-            task.setCreated(time);
+            zoneTimeManipulation(user, task);
         }
         model.addAttribute("tasks", tasks);
         return "task/taskList";
@@ -70,8 +61,10 @@ public class TaskController {
 
     @GetMapping("/{id}")
     public String taskGet(Model model, @PathVariable("id") int id, HttpSession httpSession) {
-        Utility.userGet(model, httpSession);
-        model.addAttribute("task", taskService.findById(id));
+        User user = Utility.userGet(model, httpSession);
+        Task task = taskService.findById(id);
+        zoneTimeManipulation(user, task);
+        model.addAttribute("task", task);
         return "task/task";
     }
 
@@ -141,5 +134,17 @@ public class TaskController {
         task.setUser(user);
         task.setCategories(categories);
         task.setCreated(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+    }
+
+    private void zoneTimeManipulation(User user, Task task) {
+        ZonedDateTime time;
+        if (user.getTimeZone() == null) {
+            time = task.getCreated().withZoneSameInstant(ZoneId.of("UTC"))
+                    .truncatedTo(ChronoUnit.SECONDS);
+        } else {
+            time = task.getCreated().withZoneSameInstant(ZoneId.of(user.getTimeZone()))
+                    .truncatedTo(ChronoUnit.SECONDS);
+        }
+        task.setCreated(time);
     }
 }
