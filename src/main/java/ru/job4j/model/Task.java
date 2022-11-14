@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Task {
     @EqualsAndHashCode.Include
     private String description;
 
-    private LocalDateTime created;
+    private ZonedDateTime created;
     private boolean done;
 
     @ManyToOne

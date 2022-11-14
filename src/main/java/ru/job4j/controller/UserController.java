@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.model.User;
+import ru.job4j.service.TimeZoneService;
 import ru.job4j.service.UserService;
 import ru.job4j.utility.Utility;
 
@@ -21,11 +22,13 @@ import java.util.Optional;
 @ThreadSafe
 public class UserController {
     private UserService service;
+    private TimeZoneService timeZoneService;
 
     @GetMapping("/registration")
     public String addUserGet(Model model, HttpSession session) {
         Utility.userGet(model, session);
-        model.addAttribute("user1", new User(0, " ", " ", " "));
+        model.addAttribute("timeZones", timeZoneService.getAllTimeZones());
+        model.addAttribute("user1", new User(0, " ", " ", " ", " "));
         return "user/addUser";
     }
 

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS tasks (
    id SERIAL PRIMARY KEY,
    description TEXT,
-   created TIMESTAMP,
+   created TIMESTAMP WITHOUT TIME ZONE DEFAULT now(),
    done BOOLEAN
 );

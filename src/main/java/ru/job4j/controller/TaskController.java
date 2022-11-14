@@ -18,7 +18,8 @@ import ru.job4j.utility.Utility;
 
 import javax.servlet.http.HttpSession;
 
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 
 import java.util.ArrayList;
@@ -35,8 +36,21 @@ public class TaskController {
 
     @GetMapping("/list")
     public String listTaskGet(Model model, HttpSession httpSession) {
-        Utility.userGet(model, httpSession);
-        model.addAttribute("tasks", taskService.findAll());
+        User user = Utility.userGet(model, httpSession);
+        System.out.println(user.getTimeZone());
+        List<Task> tasks = taskService.findAll();
+        for (Task task : tasks) {
+            ZonedDateTime time;
+            if (user.getTimeZone() == null) {
+                time = task.getCreated().withZoneSameInstant(ZoneId.of("UTC"))
+                        .truncatedTo(ChronoUnit.SECONDS);
+            } else {
+                time = task.getCreated().withZoneSameInstant(ZoneId.of(user.getTimeZone()))
+                        .truncatedTo(ChronoUnit.SECONDS);
+            }
+            task.setCreated(time);
+        }
+        model.addAttribute("tasks", tasks);
         return "task/taskList";
     }
 
@@ -126,6 +140,6 @@ public class TaskController {
         }
         task.setUser(user);
         task.setCategories(categories);
-        task.setCreated(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        task.setCreated(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS));
     }
 }
